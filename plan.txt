@@ -1,0 +1,18 @@
+Data 
+- Fake developed data through python faker lib
+
+| Column         | Example          |
+| -------------- | ---------------- |
+| transaction_id | TXN10231         |
+| customer_id    | CUST231          |
+| merchant_id    | MER102           |
+| amount         | 1250.50          |
+| payment_method | Credit Card      |
+| category       | Electronics      |
+| city           | Delhi            |
+| timestamp      | 2026-05-10 14:32 |
+| status         | Success          |
+| device_type    | Mobile           |
+| is_fraud       | 0                |
+
+
