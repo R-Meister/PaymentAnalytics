@@ -31,6 +31,23 @@ async def customer_segments():
     return [dict(r) for r in rows]
 
 
+@router.get("/customers/segments/ml")
+async def customer_segments_ml():
+    rows = await fetch("""
+        select
+            segment_name,
+            count(*) as customer_count,
+            round(avg(total_spend)::numeric, 2) as avg_spend,
+            round(avg(total_txns)::numeric, 1) as avg_transactions,
+            round(avg(unique_merchants)::numeric, 1) as avg_merchants,
+            round(avg(days_since_last_txn)::numeric, 1) as avg_recency_days
+        from ml_customer_segments
+        group by segment_name
+        order by avg_spend desc
+    """)
+    return [dict(r) for r in rows]
+
+
 @router.get("/customers", response_model=PaginatedResponse)
 async def list_customers(
     page: int = Query(1, ge=1),

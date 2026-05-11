@@ -63,6 +63,29 @@ async def list_merchants(
     )
 
 
+@router.get("/merchants/sentiment")
+async def merchant_sentiment(
+    page: int = Query(1, ge=1),
+    limit: int = Query(25, ge=1, le=100),
+):
+    total = await fetchval("select count(*) from ml_merchant_sentiment")
+    offset = (page - 1) * limit
+    rows = await fetch(
+        """
+        select s.*, m.merchant_name, m.category, m.city
+        from ml_merchant_sentiment s
+        join dim_merchants m on s.merchant_id = m.merchant_id
+        order by s.avg_polarity desc
+        limit $1 offset $2
+        """,
+        limit,
+        offset,
+    )
+    return PaginatedResponse(
+        page=page, limit=limit, total=total or 0, results=[dict(r) for r in rows]
+    )
+
+
 @router.get("/merchants/{merchant_id}")
 async def get_merchant(merchant_id: str):
     merchant = await fetchrow(

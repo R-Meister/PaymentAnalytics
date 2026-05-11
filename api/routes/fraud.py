@@ -8,6 +8,57 @@ from ..schemas import PaginatedResponse
 router = APIRouter(tags=["fraud"])
 
 
+@router.get("/fraud/ml-predictions", response_model=PaginatedResponse)
+async def fraud_ml_predictions(
+    page: int = Query(1, ge=1),
+    limit: int = Query(25, ge=1, le=100),
+):
+    total = await fetchval("select count(*) from ml_fraud_predictions")
+    offset = (page - 1) * limit
+    rows = await fetch(
+        """
+        select p.transaction_id, p.model_prediction, p.model_score, p.model_name, p.created_at,
+               t.amount, t.timestamp, t.status, t.risk_level, c.customer_name, m.merchant_name
+        from ml_fraud_predictions p
+        join fact_transactions t on p.transaction_id = t.transaction_id
+        join dim_customers c on t.customer_id = c.customer_id
+        join dim_merchants m on t.merchant_id = m.merchant_id
+        where p.model_prediction = 1
+        order by p.model_score desc
+        limit $1 offset $2
+        """,
+        limit,
+        offset,
+    )
+    return PaginatedResponse(
+        page=page, limit=limit, total=total or 0, results=[dict(r) for r in rows]
+    )
+
+
+@router.get("/fraud/ml-comparison")
+async def fraud_ml_comparison():
+    rows = await fetch(
+        """
+        select
+            count(*) as total,
+            count(*) filter (where t.is_fraud = 1 and p.model_prediction = 1) as both_flagged,
+            count(*) filter (where t.is_fraud = 1 and p.model_prediction = 0) as heuristic_only,
+            count(*) filter (where t.is_fraud = 0 and p.model_prediction = 1) as ml_only,
+            count(*) filter (where t.is_fraud = 0 and p.model_prediction = 0) as neither
+        from fact_transactions t
+        join ml_fraud_predictions p on t.transaction_id = p.transaction_id
+        """
+    )
+    r = dict(rows[0]) if rows else {}
+    return {
+        "total": r.get("total", 0),
+        "both_flagged": r.get("both_flagged", 0),
+        "heuristic_only": r.get("heuristic_only", 0),
+        "ml_only": r.get("ml_only", 0),
+        "neither": r.get("neither", 0),
+    }
+
+
 @router.get("/fraud/alerts", response_model=PaginatedResponse)
 async def fraud_alerts(
     page: int = Query(1, ge=1),
