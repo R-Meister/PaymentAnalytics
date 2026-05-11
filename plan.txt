@@ -15,4 +15,242 @@ Data
 | device_type    | Mobile           |
 | is_fraud       | 0                |
 
+Merchant Intelligence & Payment Analytics Platform
+1. Project Vision
 
+Build an enterprise-style analytics system that simulates how companies like American Express analyze:
+
+merchant performance
+transaction behavior
+fraud/risk patterns
+customer segmentation
+operational trends
+executive reporting
+
+The project should showcase:
+
+Data Engineering
+Data Analytics
+Machine Learning
+Backend Development
+NLP
+Reporting Automation
+DevOps
+Cloud-readiness
+2. Final Architecture
+Synthetic Transaction Data
+        ↓
+PySpark ETL Pipelines
+        ↓
+PostgreSQL Warehouse
+        ↓
+Analytics + ML Layer
+        ↓
+FastAPI Backend APIs
+        ↓
+Dashboard / Reporting UI
+        ↓
+GenAI Executive Insights
+3. Recommended Tech Stack
+Core
+Python
+SQL
+PySpark
+PostgreSQL
+Machine Learning
+Scikit-learn
+XGBoost
+Prophet (optional)
+Backend
+FastAPI
+Frontend
+React / Next.js
+Recharts / Chart.js
+NLP
+NLTK / spaCy / TextBlob
+DevOps
+Docker
+Docker Compose
+Optional
+Airflow
+Redis
+Kafka
+4. Main Modules
+Module 1 — Transaction Analytics
+Features
+Total transaction volume
+Success/failure rate
+Payment method trends
+Regional analytics
+Daily/monthly revenue trends
+Average transaction value
+Dataset Columns
+transaction_id
+merchant_id
+customer_id
+amount
+payment_method
+status
+timestamp
+city
+state
+category
+Module 2 — Merchant Intelligence
+Features
+Top merchants
+Merchant growth rate
+Merchant category analysis
+Revenue contribution
+Churn risk merchants
+Merchant performance scoring
+KPIs
+Total Revenue
+Active Customers
+Repeat Transactions
+Refund Rate
+Merchant Score
+Module 3 — Fraud Detection
+ML Goals
+
+Detect:
+
+suspicious transactions
+high-risk merchants
+unusual customer activity
+Suggested Features
+unusually high amounts
+midnight transactions
+rapid repeat payments
+geo-location mismatch
+abnormal spending patterns
+Models
+Isolation Forest
+Random Forest
+XGBoost
+Output
+fraud_score
+risk_level
+anomaly flags
+Module 4 — Customer Segmentation
+Goal
+
+Cluster customers into groups.
+
+Example Segments
+High-value users
+Frequent shoppers
+Dormant users
+Cashback-focused users
+Luxury spenders
+Features
+monthly spend
+transaction frequency
+average order value
+merchant diversity
+Model
+KMeans clustering
+Module 5 — Forecasting
+Forecast
+transaction volume
+merchant revenue
+category growth
+Models
+Prophet
+ARIMA (optional)
+Visualizations
+trend lines
+future projections
+Module 6 — NLP Analytics
+Data
+merchant reviews
+customer complaints
+support tickets
+NLP Tasks
+sentiment analysis
+keyword extraction
+topic modeling
+complaint classification
+Example Output
+
+"Delivery delays increased negative sentiment by 23% for food merchants."
+
+Module 7 — Reporting Automation
+Goal
+
+Simulate enterprise analytics reporting.
+
+Features
+scheduled reports
+automated KPI summaries
+CSV/PDF exports
+GenAI-generated business insights
+Example AI Summary
+
+"Electronics merchants showed a 14% increase in transaction volume during weekends, while refund rates decreased by 5%."
+
+5. Data Pipeline Flow
+Step 1 — Data Generation
+
+Create synthetic datasets:
+
+transactions.csv
+merchants.csv
+customers.csv
+reviews.csv
+support_tickets.csv
+
+Recommended size:
+
+1M+ transactions
+Step 2 — ETL Using PySpark
+Tasks
+schema validation
+null handling
+outlier treatment
+feature engineering
+aggregation
+joins
+partitioning
+Example Features
+transaction_hour
+weekend_flag
+merchant_risk_score
+avg_customer_spend
+Step 3 — Load Into PostgreSQL
+Warehouse Tables
+fact_transactions
+dim_merchants
+dim_customers
+fraud_predictions
+customer_segments
+nlp_insights
+Step 4 — ML Pipelines
+
+Train models and store predictions.
+
+Step 5 — FastAPI Backend
+Example APIs
+/transactions
+/merchant/{id}
+/fraud-alerts
+/forecast
+/customer-segments
+/executive-summary
+Step 6 — Dashboard
+Dashboard Pages
+Executive Dashboard
+KPIs
+revenue trends
+fraud alerts
+Merchant Dashboard
+merchant rankings
+growth charts
+refund analysis
+Fraud Dashboard
+anomaly heatmaps
+suspicious transactions
+fraud trends
+Customer Dashboard
+customer clusters
+spend analysis
+engagement metrics
