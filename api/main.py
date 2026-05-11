@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import connect, close
-from .routes import customers, executive, fraud, merchants, transactions
+from .routes import customers, executive, forecast, fraud, merchants, transactions
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.include_router(merchants.router, prefix="/api")
 app.include_router(fraud.router, prefix="/api")
 app.include_router(customers.router, prefix="/api")
 app.include_router(executive.router, prefix="/api")
+app.include_router(forecast.router, prefix="/api")
 
 
 @app.get("/health")
