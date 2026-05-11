@@ -17,5 +17,29 @@ services:
       timeout: 3s
       retries: 5
 
+  api:
+    build: .
+    container_name: payment_analytics_api
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: payment_analytics
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+    command: >
+      sh -c "python sql/loader.py --skip-schema &&
+             python ml/fraud_detection.py &&
+             python ml/customer_segmentation.py &&
+             python ml/sentiment_analysis.py &&
+             python ml/forecasting.py &&
+             uvicorn api.main:app --host 0.0.0.0 --port 8000"
+
 volumes:
   pgdata:
