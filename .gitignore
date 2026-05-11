@@ -1,2 +1,16 @@
-venv
-data
+# Virtual environment
+venv/
+
+# Generated datasets
+data/
+simulator/data/
+
+# Lakehouse / Delta outputs
+lakehouse/
+
+# Spark / Delta artifacts
+*.crc
+*.parquet
+
+# Python cache
+__pycache__/
